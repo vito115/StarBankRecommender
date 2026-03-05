@@ -21,7 +21,7 @@ public class RecommendationsRepository {
     public boolean hasAnyProductOfType(UUID userId, String productType) {
         String sql = """
                 SELECT COUNT(*) > 0
-                FROM operations o
+                FROM transactions o
                 JOIN products p ON o.product_id = p.id
                 WHERE o.user_id = ? AND p.type = ?
                 """;
@@ -40,7 +40,7 @@ public class RecommendationsRepository {
     public BigDecimal getTotalDepositsByProductType(UUID userId, String productType) {
         String sql = """
                 SELECT COALESCE (SUM(o.amount), 0)
-                FROM operations o
+                FROM transactions o
                 JOIN products p ON o.product_id = p.id
                 WHERE o.user_id = ? AND p.type = ? AND o.type = 'DEPOSIT'
                 """;
@@ -52,7 +52,7 @@ public class RecommendationsRepository {
     public BigDecimal getTotalWithdrawalsByProductType(UUID userId, String productType) {
         String sql = """
                 SELECT COALESCE(SUM(o.amount), 0)
-                FROM operations o
+                FROM transactions o
                 JOIN products p ON o.product_id = p.id
                 WHERE o.user_id = ? AND p.type = ? AND o.type = 'WITHDRAW'
                 """;
@@ -64,7 +64,7 @@ public class RecommendationsRepository {
     public BigDecimal getTotalSavingDeposits(UUID userId) {
         String sql = """
                 SELECT COALESCE(SUM(o.amount), 0)
-                FROM operations o
+                FROM transactions o
                 JOIN products p ON o.product_id = p.id
                 WHERE o.user_id = ? AND p.type = 'SAVING' AND o.type = 'DEPOSIT'
                 """;
