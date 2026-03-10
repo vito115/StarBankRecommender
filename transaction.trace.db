@@ -1426,3 +1426,19 @@ FROM operations o
 JOIN products p ON o.product_id = p.id
 WHERE o.user_id = ? AND p.type = ?
  [42102-240]
+2026-03-10 19:57:38.120656+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "SELECT COUNT(SUM(o.amount)[*], 0)\000aFROM transactions o\000aJOIN products p ON o.product_id = p.id\000aWHERE o.user_id = ? AND p.type = ? AND o.type = 'DEPOSIT'\000a"; ожидалось "FILTER ( WHERE, OVER, [, ., ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, )"
+Syntax error in SQL statement "SELECT COUNT(SUM(o.amount)[*], 0)\000aFROM transactions o\000aJOIN products p ON o.product_id = p.id\000aWHERE o.user_id = ? AND p.type = ? AND o.type = 'DEPOSIT'\000a"; expected "FILTER ( WHERE, OVER, [, ., ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, )"; SQL statement:
+SELECT COUNT(SUM(o.amount), 0)
+FROM transactions o
+JOIN products p ON o.product_id = p.id
+WHERE o.user_id = ? AND p.type = ? AND o.type = 'DEPOSIT'
+ [42001-240]
+2026-03-10 19:57:47.431988+05:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "SELECT COUNT(SUM(o.amount)[*], 0)\000aFROM transactions o\000aJOIN products p ON o.product_id = p.id\000aWHERE o.user_id = ? AND p.type = ? AND o.type = 'DEPOSIT'\000a"; ожидалось "FILTER ( WHERE, OVER, [, ., ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, )"
+Syntax error in SQL statement "SELECT COUNT(SUM(o.amount)[*], 0)\000aFROM transactions o\000aJOIN products p ON o.product_id = p.id\000aWHERE o.user_id = ? AND p.type = ? AND o.type = 'DEPOSIT'\000a"; expected "FILTER ( WHERE, OVER, [, ., ::, AT, FORMAT, *, /, %, +, -, ||, NOT, IS, ILIKE, REGEXP, AND, OR, )"; SQL statement:
+SELECT COUNT(SUM(o.amount), 0)
+FROM transactions o
+JOIN products p ON o.product_id = p.id
+WHERE o.user_id = ? AND p.type = ? AND o.type = 'DEPOSIT'
+ [42001-240]
