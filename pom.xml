@@ -70,6 +70,12 @@
 			<artifactId>caffeine</artifactId>
 			<version>3.2.3</version>
 		</dependency>
+		<!-- Telegram Bot API -->
+		<dependency>
+			<groupId>org.telegram</groupId>
+			<artifactId>telegrambots-spring-boot-starter</artifactId>
+			<version>6.9.7.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

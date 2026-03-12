@@ -1,11 +1,13 @@
 package com.star.recommender.repository;
 
 import com.star.recommender.cache.QueryCacheManager;
+import com.star.recommender.model.Client;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -19,6 +21,41 @@ public class RecommendationsRepository {
             QueryCacheManager cacheManager) {
         this.jdbcTemplate = jdbcTemplate;
         this.cacheManager = cacheManager;
+    }
+
+    // Поиск пользователя по точному имени и фамилии
+    public List<Client> findClientsByName(String firstName, String lastName) {
+        String sql = """
+                SELECT id, first_name, last_name
+                FROM clients
+                WHERE first_name = ? AND last_name = ?
+                """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Client client = new Client();
+            client.setId(rs.getString("id"));
+            client.setFirstName(rs.getString("first_name"));
+            client.setLastName(rs.getString("last_name"));
+            return client;
+        }, firstName, lastName);
+    }
+
+    // Поиск пользователя по части имени
+    public List<Client> findClientsByNameLike(String namePart) {
+        String sql = """
+                SELECT id, first_name, last_name
+                FROM clients
+                WHERE first_name LIKE ? OR last_name LIKE ?
+                """;
+
+        String pattern = "%" + namePart + "%";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Client client = new Client();
+            client.setId(rs.getString("id"));
+            client.setFirstName(rs.getString("first_name"));
+            client.setLastName(rs.getString("last_name"));
+            return client;
+        }, pattern, pattern);
     }
 
     private BigDecimal executeSumQuery(UUID userId, String productType, String transactionType) {
