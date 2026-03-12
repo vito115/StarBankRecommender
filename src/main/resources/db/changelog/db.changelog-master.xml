@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+    <!--
+    Миграция 1: Создание таблицы для правил changeSet - это одна атомарная миграция
+    -->
+    <changeSet id="1" author="star">
+    <!-- Таблица для хранения правил -->
+        <createTable tableName="dynamic_rules">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="UUID">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="product_text" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!--
+    Миграция 2: Создание таблицы для запросов внутри правил,
+    одно правило может содержать несколько запросов
+    -->
+    <changeSet id="2" author="star">
+        <createTable tableName="rule_queries">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rule_id" type="UUID">
+                <constraints nullable="false"
+                foreignKeyName="fk_rule_queries_rule"
+                references="dynamic_rules(id)"/>
+            </column>
+            <column name="query" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="negate" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!--
+    Миграция 3: Создание таблицы для аргументов запросов.
+    Каждый запрос может иметь несколько аргументов
+    -->
+    <changeSet id="3" author="star">
+        <createTable tableName="query_arguments">
+            <column name="query_id" type="UUID">
+                <constraints nullable="false"
+                             foreignKeyName="fk_query_arguments_query"
+                             references="rule_queries(id)"/>
+            </column>
+            <column name="argument" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="argument_order" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!--
+    Миграция 4: Создание таблицы для статистики срабатывания правил
+    -->
+    <changeSet id="4" author="star">
+        <createTable tableName="rule_statistics">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rule_id" type="UUID">
+                <constraints nullable="false" unique="true"
+                             foreignKeyName="fk_rule_stats_rule"
+                             references="dynamic_rules(id)"/>
+            </column>
+            <column name="trigger_count" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
