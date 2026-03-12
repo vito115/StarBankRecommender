@@ -65,4 +65,23 @@
             </column>
         </createTable>
     </changeSet>
+
+    <!--
+    Миграция 4: Создание таблицы для статистики срабатывания правил
+    -->
+    <changeSet id="4" author="star">
+        <createTable tableName="rule_statistics">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rule_id" type="UUID">
+                <constraints nullable="false" unique="true"
+                             foreignKeyName="fk_rule_stats_rule"
+                             references="dynamic_rules(id)"/>
+            </column>
+            <column name="trigger_count" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

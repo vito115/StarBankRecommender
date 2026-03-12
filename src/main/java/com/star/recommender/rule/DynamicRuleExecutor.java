@@ -3,6 +3,7 @@ package com.star.recommender.rule;
 import com.star.recommender.dto.RuleDto;
 import com.star.recommender.model.Product;
 import com.star.recommender.repository.RecommendationsRepository;
+import com.star.recommender.service.RuleStatisticService;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -18,9 +19,12 @@ import java.util.UUID;
 public class DynamicRuleExecutor {
 
     private final RecommendationsRepository repository;
+    private final RuleStatisticService statisticService;
 
-    public DynamicRuleExecutor(RecommendationsRepository repository) {
+    public DynamicRuleExecutor(RecommendationsRepository repository,
+                               RuleStatisticService statisticService) {
         this.repository = repository;
+        this.statisticService = statisticService;
     }
 
     public Optional<Product> checkRule(RuleDto rule, UUID userId) {
@@ -31,6 +35,9 @@ public class DynamicRuleExecutor {
                 return Optional.empty();
             }
         }
+
+        // Правило сработало - увеличиваем счетчик!
+        statisticService.incrementStatistic(rule.getId());
 
         Product product = new Product(
                 rule.getProductId(),

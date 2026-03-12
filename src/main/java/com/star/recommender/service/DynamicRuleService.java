@@ -3,7 +3,9 @@ package com.star.recommender.service;
 import com.star.recommender.dto.RuleDto;
 import com.star.recommender.model.DynamicRule;
 import com.star.recommender.model.RuleQuery;
+import com.star.recommender.model.RuleStatistic;
 import com.star.recommender.repository.DynamicRuleRepository;
+import com.star.recommender.repository.RuleStatisticRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +22,12 @@ import java.util.stream.Collectors;
 public class DynamicRuleService {
 
     private final DynamicRuleRepository ruleRepository;
+    private final RuleStatisticRepository statisticRepository;
 
-    public DynamicRuleService(DynamicRuleRepository ruleRepository) {
+    public DynamicRuleService(DynamicRuleRepository ruleRepository,
+                              RuleStatisticRepository statisticRepository) {
         this.ruleRepository = ruleRepository;
+        this.statisticRepository = statisticRepository;
     }
 
     /**
@@ -54,7 +59,11 @@ public class DynamicRuleService {
         // 3. Сохраняем в базу данных
         DynamicRule saved = ruleRepository.save(rule);
 
-        // 4. Преобразуем обратно в DTO и возвращаем
+        // 4. Создаем статистику только с ID (без связи)
+        RuleStatistic statistic = new RuleStatistic(saved.getId());
+        statisticRepository.save(statistic);
+
+        // 5. Преобразуем обратно в DTO и возвращаем
         return convertToDto(saved);
     }
 
@@ -67,6 +76,7 @@ public class DynamicRuleService {
 
     @Transactional
     public void deleteRule(UUID productId) {
+        statisticRepository.deleteByRuleId(productId);
         ruleRepository.deleteById(productId);
     }
 

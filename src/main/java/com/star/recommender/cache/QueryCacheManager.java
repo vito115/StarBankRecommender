@@ -2,6 +2,8 @@ package com.star.recommender.cache;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class QueryCacheManager {
 
+    private static final Logger log = LoggerFactory.getLogger(QueryCacheManager.class);
     // Кэш для результатов hasAnyProductOfType
     private final Cache<String, Boolean> hasProductCache = Caffeine.newBuilder()
             .maximumSize(1000)          // храним до 1000 результатов
@@ -76,5 +79,6 @@ public class QueryCacheManager {
         hasProductCache.invalidateAll();
         depositSumCache.invalidateAll();
         withdrawSumCache.invalidateAll();
+        log.info("All caches cleared");
     }
 }
