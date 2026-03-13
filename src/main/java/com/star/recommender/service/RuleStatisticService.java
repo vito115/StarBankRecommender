@@ -26,7 +26,7 @@ public class RuleStatisticService {
 
     @Transactional
     public void incrementStatistic(UUID ruleId) {
-        RuleStatistic statistic = statisticRepository.findById(ruleId)
+        RuleStatistic statistic = statisticRepository.findByRuleId(ruleId)
                 .orElseGet(() -> {
                     RuleStatistic newStat = new RuleStatistic(ruleId);
                     return statisticRepository.save(newStat);
