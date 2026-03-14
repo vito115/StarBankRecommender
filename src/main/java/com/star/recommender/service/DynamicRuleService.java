@@ -6,8 +6,8 @@ import com.star.recommender.model.RuleQuery;
 import com.star.recommender.model.RuleStatistic;
 import com.star.recommender.repository.DynamicRuleRepository;
 import com.star.recommender.repository.RuleStatisticRepository;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;

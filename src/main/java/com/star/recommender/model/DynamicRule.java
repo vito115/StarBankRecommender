@@ -31,7 +31,8 @@ public class DynamicRule {
     @OneToMany(mappedBy = "rule", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RuleQuery> queries = new ArrayList<>();
 
-    public DynamicRule() {}
+    public DynamicRule() {
+    }
 
     public DynamicRule(String productName, UUID productId, String productText) {
         this.productName = productName;

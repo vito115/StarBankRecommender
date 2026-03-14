@@ -12,7 +12,8 @@ public class RuleStatisticDto {
     @JsonProperty("count")
     private long count;
 
-    public RuleStatisticDto() {}
+    public RuleStatisticDto() {
+    }
 
     public RuleStatisticDto(UUID ruleId, long count) {
         this.ruleId = ruleId;

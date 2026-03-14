@@ -44,7 +44,7 @@ public class RulesDataSourceConfiguration {
     @Primary
     @Bean(name = "rulesEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean rulesEntityManagerFactory(
-        @Qualifier("rulesDataSource") DataSource dataSource) {
+            @Qualifier("rulesDataSource") DataSource dataSource) {
 
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
@@ -67,7 +67,7 @@ public class RulesDataSourceConfiguration {
     @Primary
     @Bean(name = "rulesTransactionManager")
     public PlatformTransactionManager rulesTransactionManager(
-        @Qualifier("rulesEntityManagerFactory") LocalContainerEntityManagerFactoryBean entityManagerFactory) {
+            @Qualifier("rulesEntityManagerFactory") LocalContainerEntityManagerFactoryBean entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory.getObject());
     }
 }

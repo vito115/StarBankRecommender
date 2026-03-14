@@ -19,7 +19,8 @@ public class RuleStatistic {
     @Column(name = "trigger_count", nullable = false)
     private long triggerCount = 0;
 
-    public RuleStatistic() {}
+    public RuleStatistic() {
+    }
 
     public RuleStatistic(UUID ruleId) {
         this.ruleId = ruleId;

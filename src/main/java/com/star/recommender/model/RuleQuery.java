@@ -31,7 +31,8 @@ public class RuleQuery {
     @Column(nullable = false)
     private boolean negate; // отрицание true/false
 
-    public RuleQuery() {}
+    public RuleQuery() {
+    }
 
     public RuleQuery(DynamicRule rule, String query, List<String> arguments, boolean negate) {
         this.rule = rule;

@@ -23,7 +23,8 @@ public class RuleDto {
     @JsonProperty("rule")
     private List<QueryDto> rule;
 
-    public RuleDto() {}
+    public RuleDto() {
+    }
 
     public RuleDto(UUID id, String productName, UUID productId, String productText, List<QueryDto> rule) {
         this.id = id;
@@ -82,7 +83,8 @@ public class RuleDto {
         private List<String> arguments;     // аргументы запроса
         private boolean negate;             // отрицание
 
-        public QueryDto() {}
+        public QueryDto() {
+        }
 
         public QueryDto(String query, List<String> arguments, boolean negate) {
             this.query = query;
@@ -123,7 +125,8 @@ public class RuleDto {
 class RuleListResponse {
     private List<RuleDto> data;
 
-    public RuleListResponse() {}
+    public RuleListResponse() {
+    }
 
     public RuleListResponse(List<RuleDto> data) {
         this.data = data;

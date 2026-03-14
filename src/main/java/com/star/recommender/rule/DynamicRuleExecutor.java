@@ -31,7 +31,7 @@ public class DynamicRuleExecutor {
         for (RuleDto.QueryDto query : rule.getRule()) {
             boolean result = executeQuery(query, userId);
 
-            if (query.isNegate() ? result : !result) {
+            if (query.isNegate() == result) {
                 return Optional.empty();
             }
         }
@@ -102,11 +102,16 @@ public class DynamicRuleExecutor {
 
     private boolean compare(BigDecimal left, String operator, BigDecimal right) {
         switch (operator) {
-            case ">": return left.compareTo(right) > 0;
-            case "<": return left.compareTo(right) < 0;
-            case "=": return left.compareTo(right) == 0;
-            case ">=": return left.compareTo(right) >= 0;
-            case "<=": return left.compareTo(right) <= 0;
+            case ">":
+                return left.compareTo(right) > 0;
+            case "<":
+                return left.compareTo(right) < 0;
+            case "=":
+                return left.compareTo(right) == 0;
+            case ">=":
+                return left.compareTo(right) >= 0;
+            case "<=":
+                return left.compareTo(right) <= 0;
             default:
                 return false;
         }

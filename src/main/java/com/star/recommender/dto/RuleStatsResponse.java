@@ -6,7 +6,8 @@ public class RuleStatsResponse {
 
     private List<RuleStatisticDto> stats;
 
-    public RuleStatsResponse() {}
+    public RuleStatsResponse() {
+    }
 
     public RuleStatsResponse(List<RuleStatisticDto> stats) {
         this.stats = stats;

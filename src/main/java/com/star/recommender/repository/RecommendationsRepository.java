@@ -59,7 +59,7 @@ public class RecommendationsRepository {
     }
 
     private BigDecimal executeSumQuery(UUID userId, String productType, String transactionType) {
-        String sql =String.format( """
+        String sql = String.format("""
                 SELECT COALESCE(SUM(o.amount), 0)
                 FROM transactions o
                 JOIN products p ON o.product_id = p.id
